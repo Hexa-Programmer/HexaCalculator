@@ -73,6 +73,8 @@ body {
     z-index: 2;
     opacity: 0;
     animation: charmFade 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    text-align: center;
+    padding: 0 20px;
 }
 
 .blob {
@@ -144,26 +146,36 @@ body {
     transition: transform 0.35s ease;
 }
 
+.sidebar-brand {
+    padding: 24px 20px 5px 20px;
+}
+
+.sidebar-brand h2 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
 .sidebar-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 24px 20px 15px 20px;
+    padding: 10px 20px 15px 20px;
 }
 
-.sidebar h2 {
-    font-size: 20px;
-    font-weight: 600;
+.sidebar-header h3 {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-muted);
 }
 
 .clear-btn {
     background: rgba(255, 59, 48, 0.08);
     color: var(--danger);
     border: none;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     cursor: pointer;
-    padding: 8px 14px;
+    padding: 6px 12px;
     border-radius: 8px;
     transition: all 0.2s ease;
 }
@@ -263,7 +275,7 @@ body {
 }
 
 #Display {
-    font-size: 48px;
+    font-size: 56px;
     font-weight: 700;
     letter-spacing: -1px;
     text-align: right;
@@ -271,7 +283,7 @@ body {
     overflow-x: auto;
     white-space: nowrap;
     padding: 10px 0;
-    color: var(--text-main);
+    color: var(--accent);
 }
 
 .buttons {
@@ -336,8 +348,19 @@ body {
     }
     
     .blob-1, .blob-2 {
-        width: 250px;
-        height: 250px;
+        width: 220px;
+        height: 220px;
+        filter: blur(50px);
+    }
+    
+    .blob-1 {
+        margin-right: 40px;
+        margin-bottom: 60px;
+    }
+
+    .blob-2 {
+        margin-left: 60px;
+        margin-top: 80px;
     }
 
     .sidebar {
@@ -369,6 +392,6 @@ body {
     }
 
     #Display {
-        font-size: 38px;
+        font-size: 44px;
     }
 }

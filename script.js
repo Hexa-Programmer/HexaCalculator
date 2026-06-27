@@ -25,6 +25,7 @@ let equal = document.getElementById("equal");
 let display = document.getElementById("Display");
 let historyList = document.getElementById("historyList");
 let appContainer = document.getElementById("appContainer");
+let editorArea = document.querySelector(".editor");
 
 let calculations = [];
 try {
@@ -153,6 +154,12 @@ equal.addEventListener("click", function () {
     saveCalculations();
     renderHistory();
     op = 0;
+  }
+});
+
+editorArea.addEventListener("click", function (e) {
+  if (appContainer.classList.contains("sidebar-open") && !e.target.closest(".back-btn")) {
+    appContainer.classList.remove("sidebar-open");
   }
 });
 
