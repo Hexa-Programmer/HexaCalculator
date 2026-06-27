@@ -1,11 +1,14 @@
+// script.js
+
 let count = 0;
-let actcount = 0
-let op = 0
-let back = document.getElementById("&#9003;")
-let mul = document.getElementById("multiplication")
-let add = document.getElementById("addition")
-let sub = document.getElementById("subtraction")
-let div = document.getElementById("division")
+let actcount = 0;
+let op = 0;
+let expressions = "";
+
+let mul = document.getElementById("multiplication");
+let add = document.getElementById("addition");
+let sub = document.getElementById("subtraction");
+let div = document.getElementById("division");
 let AC = document.getElementById("AC");
 let btn1 = document.getElementById("1");
 let btn2 = document.getElementById("2");
@@ -17,14 +20,28 @@ let btn7 = document.getElementById("7");
 let btn8 = document.getElementById("8");
 let btn9 = document.getElementById("9");
 let btn0 = document.getElementById("0");
-let equal = document.getElementById("equal")
+let back = document.getElementById("Back");
+let equal = document.getElementById("equal");
 let display = document.getElementById("Display");
+let historyList = document.getElementById("historyList");
+let appContainer = document.getElementById("appContainer");
+
+let calculations = [];
+try {
+  let savedCalculations = localStorage.getItem("hexa_calculations");
+  calculations = savedCalculations ? JSON.parse(savedCalculations) : [];
+} catch (e) {
+  calculations = [];
+}
 
 AC.addEventListener("click", function () {
-  count = 0
-  actcount = 0
-w
+  count = 0;
+  actcount = 0;
+  op = 0;
+  expressions = "";
+  display.textContent = count;
 });
+
 btn1.addEventListener("click", function () {
   count = count * 10 + 1;
   display.textContent = count;
@@ -65,45 +82,119 @@ btn0.addEventListener("click", function () {
   count = count * 10;
   display.textContent = count;
 });
+
+back.addEventListener("click", function () {
+  count = Math.floor(count / 10);
+  display.textContent = count;
+});
+
 add.addEventListener("click", function () {
-  op = 1
-  actcount = count
-  count = 0
+  op = 1;
+  actcount = count;
+  expressions = actcount + " + ";
+  count = 0;
   display.textContent = count;
-})
+});
 sub.addEventListener("click", function () {
-  op = 2
-  actcount = count
-  count = 0
+  op = 2;
+  actcount = count;
+  expressions = actcount + " - ";
+  count = 0;
   display.textContent = count;
-})
+});
 mul.addEventListener("click", function () {
-  op = 3
-  actcount = count
-  count = 0
+  op = 3;
+  actcount = count;
+  expressions = actcount + " × ";
+  count = 0;
   display.textContent = count;
-})
+});
 div.addEventListener("click", function () {
-  op = 4
-  actcount = count
-  count = 0
+  op = 4;
+  actcount = count;
+  expressions = actcount + " ÷ ";
+  count = 0;
   display.textContent = count;
-})
+});
+
 equal.addEventListener("click", function () {
+  let finalResult = 0;
+  let validOp = false;
+
   if (op == 1) {
-    count = count + actcount
-    display.textContent = count;
+    expressions += count;
+    finalResult = actcount + count;
+    validOp = true;
   }
   else if (op == 2) {
-    count = actcount - count
-    display.textContent = count;
+    expressions += count;
+    finalResult = actcount - count;
+    validOp = true;
   }
   else if (op == 3) {
-    count = actcount * count
-    display.textContent = count;
+    expressions += count;
+    finalResult = actcount * count;
+    validOp = true;
   }
   else if (op == 4) {
-    count = actcount / count
-    display.textContent = count;
+    expressions += count;
+    finalResult = count !== 0 ? actcount / count : "Error";
+    validOp = true;
   }
-})
+
+  if (validOp) {
+    count = finalResult === "Error" ? 0 : finalResult;
+    display.textContent = finalResult;
+    
+    calculations.push({
+      expr: expressions,
+      res: finalResult
+    });
+    saveCalculations();
+    renderHistory();
+    op = 0;
+  }
+});
+
+function saveCalculations() {
+  localStorage.setItem("hexa_calculations", JSON.stringify(calculations));
+}
+
+function renderHistory() {
+  historyList.innerHTML = "";
+  calculations.forEach(calc => {
+    let divItem = document.createElement("div");
+    divItem.classList.add("history-item");
+
+    let exprSpan = document.createElement("span");
+    exprSpan.classList.add("history-expr");
+    exprSpan.textContent = calc.expr;
+
+    let resSpan = document.createElement("span");
+    resSpan.classList.add("history-res");
+    resSpan.textContent = calc.res;
+
+    divItem.appendChild(exprSpan);
+    divItem.appendChild(resSpan);
+    historyList.appendChild(divItem);
+  });
+}
+
+function clearHistory() {
+  calculations = [];
+  saveCalculations();
+  renderHistory();
+}
+
+function toggleSidebar() {
+  appContainer.classList.toggle("sidebar-open");
+}
+
+function init() {
+  renderHistory();
+  setTimeout(() => {
+    document.getElementById('loadingScreen').classList.add('hide-loader');
+  }, 2200);
+}
+
+init();
