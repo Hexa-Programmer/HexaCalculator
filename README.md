@@ -1,11 +1,9 @@
 # HexaCalculator
 
 View HexaCalculator at: https://hexa-programmer.github.io/HexaCalculator/
-
-![HexaCalculator Gameplay](showcase.png)
-
 HexaCalculator is a minimal, web application built using HTML, CSS, and JavaScript.  
 It runs entirely in the browser with no backend and uses localStorage to store calculation history.
+![HexaCalculator Gameplay](showcase.png)
 
 ---
 
